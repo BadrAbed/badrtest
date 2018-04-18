@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<h2>Create Object from JSON String</h2>
+
+<p id="demo">
+John Doe
+<p id="test"><input type="radio" id="test" > test answer</input></p>
+</p>
+<button onclick="myFunction()" id="finsh">next</button>
+<?php $test1=5; ?>
+<script>
+var i=1;
+var text = '{"employees":[' +
+'{"firstName":"{{$badr}}","lastName":"Doe" },' +
+'{"firstName":"<?= $test1 ?>","lastName":"Smith" },' +
+'{"firstName":"Peter","lastName":"Jones" }]}';
+function myFunction(){
+
+
+
+
+
+if(i>2){
+document.getElementById("finsh").innerHTML ="back to the content";
+document.getElementById("test").innerHTML ="";
+document.getElementById("demo").innerHTML ="your results is 2";
+
+
+}
+else{
+indexOfArr=0;
+obj = JSON.parse(text);
+
+document.getElementById("demo").innerHTML =obj.employees[i].firstName + " " + obj.employees[i].lastName;
+
+indexOfArr++;
+obj.employees[i].firstName + " " + obj.employees[i].lastName;
+document.getElementById("test").innerHTML=
+"<div class='row form-group'><div class='col-md-2'><label for='question' class='col-form-label'>السؤال</label></div><div class='col-md-10'><input class='form-control' name='questions["+indexOfArr+"][question]' type='text' value='' id='question'></div> </div> <div class='row form-group'><div class='col-md-2'><label for='ans1' class='col-form-label'>الاختيار الاول</label></div><div class='col-md-4'><input class='form-control' name='questions["+indexOfArr+"][ans1]' type='text' value='' id='ans1'></div><div class='col-md-2 text-left'><label for='ans2' class='col-form-label'>الاختيار الثانى</label></div><div class='col-md-4'><input class='form-control' name='questions["+indexOfArr+"][ans2]' type='text' value='' id='ans2'></div> </div> <div class='row form-group'><div class='col-md-2'><label for='ans3' class='col-form-label'>الاختيار الثالث</label></div><div class='col-md-4'><input class='form-control' name='questions["+indexOfArr+"][ans3]' type='text' value='' id='ans3'></div><div class='col-md-2 text-left'><label for='ans4' class='col-form-label'>الاختيار الرابع</label></div><div class='col-md-4'><input class='form-control' name='questions["+indexOfArr+"][ans4]' type='text' value='' id='ans4'></div></div><div class='row form-group'><div class='col-md-2'><label for='true_answer' class='col-form-label'>الاجابه الصحيحه</label></div><div class='col-md-4'><select name='questions["+indexOfArr+"][true_answer]'>\n" +
+           "  <option value=\"ans1\">الاجابه الاولى </option>\n" +
+           "  <option value=\"ans2\">الاجابه الثانيه </option>\n" +
+           "  <option value=\"ans3\">الاجابه الثالثه</option>\n" +
+           "  <option value=\"ans4\">الاجابه الرابعه</option>\n" +
+           "</select></div></div>"
+}
+
+i++;
+}
+</script>
+
+</body>
+</html>
