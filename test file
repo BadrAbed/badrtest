@@ -1,0 +1,138 @@
+ $data=[];
+        //return $request;
+        $vocabs = $request->input('vocab');
+
+        if (is_array($vocabs) || is_object($vocabs)){
+            foreach ($vocabs as $vocab)
+            {
+
+                request()->validate([
+                    'word' => 'required',
+                    'meaning'=>'required',
+
+
+
+                ],
+                    [ 'word' => 'من فضلك ادخل اسم المحتوى',
+                        'word.required'=>'من فضلك ادخل  ادخل اسم الكلمه',
+                        'meaning.required' => 'من فضلك ادخل معنى الكلمه',]);
+
+                $array = array(
+                    'word' => $vocab['word'],
+                    'meaning' => $vocab['meaning'],
+                    'content_id' => Session::get('content_id'),
+                );
+                array_push($data,$array);
+            }
+//            print_r($data);
+//            die();
+        }
+        Vocabulary::insert($data);
+            // redirect
+            Session::flash('message', 'لقد تم ادخال المصطلح بنجاح');
+            return Redirect::to('createquestion');
+
+
+-----------------------------------------------------------------------
+  newQuestion = 1;
+    newdiv = 1;
+    indexOfArr = 0;
+    $("#addQuestion_f").click(function (e) {
+        e.preventDefault();
+        newQuestion++;
+        indexOfArr++;
+        newdiv++;
+        $("#newquest").append("<div class='row form-group'><div class='col-md-2'><label for='question' class='col-form-label' >السؤال</label></div><div class='col-md-10'><input required class='form-control' name='questions["+indexOfArr+"][question]' type='text' value='' id='question' ></div> </div> <div class='row form-group'><div class='col-md-2'><label for='ans1' class='col-form-label'>الاختيار الاول</label></div><div class='col-md-4'><input required class='form-control' name='questions["+indexOfArr+"][ans1]' type='text' value='' id='ans1' required></div><div class='col-md-2 text-left'><label for='ans2' class='col-form-label'>الاختيار الثانى</label></div><div class='col-md-4'><input required class='form-control' name='questions["+indexOfArr+"][ans2]' type='text' value='' id='ans2' required></div> </div> <div class='row form-group'><div class='col-md-2'><label for='ans3' class='col-form-label'>الاختيار الثالث</label></div><div class='col-md-4'><input class='form-control' name='questions["+indexOfArr+"][ans3]' type='text' value='' id='ans3'></div><div class='col-md-2 text-left'><label for='ans4' class='col-form-label'>الاختيار الرابع</label></div><div class='col-md-4'><input class='form-control' name='questions["+indexOfArr+"][ans4]' type='text' value='' id='ans4'></div></div><div class='row form-group'><div class='col-md-2'><label for='true_answer' class='col-form-label'>الاجابه الصحيحه</label></div><div class='col-md-4'><select name='questions["+indexOfArr+"][true_answer]'>\n" +
+            "  <option value=\"ans1\" >الاجابه الاولى </option>\n" +
+            "  <option value=\"ans2\" >الاجابه الثانيه </option>\n" +
+            "  <option value=\"ans3\">الاجابه الثالثه</option>\n" +
+            "  <option value=\"ans4\">الاجابه الرابعه</option>\n" +
+            "</select></div></div>");
+
+    });
+
+----------------------------------------------------------
+
+<script>
+    function changeFunc() {
+        var main_categories = document.getElementById("main_categories");
+        var selectedValue = main_categories.options[main_categories.selectedIndex].value;
+        var form_data =new FormData();
+
+        var _token =$('input[name=_token]').val();
+        form_data.append('_token', _token);
+        form_data.append('parent_sb_id',selectedValue);
+        $('#sub_categories').empty();
+        $('#sub_categories').append('  <option value="" >----</option>');
+
+        $.ajax({
+
+            type: 'get',
+            url: 'http://localhost/achieve/public/getctag/?parent_sb_id='+selectedValue+'',
+
+
+
+
+                success: function(data) {
+
+                    $.each(data,function(i,value){
+                        var name=value.name;
+                        var id=value.id;
+
+
+                        $('#sub_categories').append('  <option value="' + id + '">' + name + '</option>');
+                        $('#sub_categories').attr('required', 'true');
+
+                    });
+
+
+        }
+
+
+        }
+        );
+    }
+
+    function changeFuncsub() {
+        var main_categories = document.getElementById("sub_categories");
+        var selectedValue = main_categories.options[main_categories.selectedIndex].value;
+        var form_data =new FormData();
+
+        var _token =$('input[name=_token]').val();
+        form_data.append('_token', _token);
+        form_data.append('parent_sb_id',selectedValue);
+        $('#sub_sub_categories').empty();
+        $('#sub_sub_categories').append('<option value="">----</option>');
+
+
+        $.ajax({
+
+                type: 'get',
+                url: 'http://localhost/achieve/public/getctag/?parent_sb_id='+selectedValue+'',
+
+
+
+
+                success: function(data) {
+
+                    $.each(data,function(i,value){
+                        var name=value.name;
+                        var id=value.id;
+
+
+                        $('#sub_sub_categories').append('<option value="' + id + '">' + name + '</option>');
+                        $('#sub_sub_categories').attr('required', 'true');
+
+                    });
+
+
+                }
+
+
+            }
+        );
+    }
+
+
+</script>
+-------------------------------------------
